@@ -12,5 +12,5 @@ Just some terminal commands which might come in use.
 grep -oR "--include=*."{gs,gsx,gsp} -P "[\W]Date[\W]" | wc -l
 ```
 Counts the number of occurrences `Date` was enclosed by two non-word characters. Usefull if you want to roughly 
-count the number of times a class is actually used as a type.
+count the number of times a class is actually used as a type.  
 `-o`: Only output the matches not the whole line; every match is now in its own line even though there might be mulitple matches per line
