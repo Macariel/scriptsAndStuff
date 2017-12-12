@@ -1,14 +1,18 @@
 # All CPP file endings
-findCPP=$(echo "-name=*."{cpp,cc,c,h,hh,hpp,cxx,hxx,inl,inc,pc})
+# We need the fist echo because one definite option before the -or is needed, otherwise it
+# will just look through every file regardless of the suggested file endings
+cppFiles=$(echo "-name *.h";echo "-o -name *."{cpp,cc,c,hh,hpp,cxx,hxx,inl,inc,pc})
+javaFiles=$(echo "-name *.java")
 
 # Returns all files with extensions and excludes dot-files
+# The second parameter can be one of the language-specific file endings above
 allFiles() {
-    find $1 -type f -not -path '*/\.*' $(echo $findCPP)
+    find $1 -type f -not -path '*/\.*' $2
 }
 
-# Checks if the first given variable is set if not it returs the second one
-# checkvar $1 $2
-# If the first one is empty it just ignores it as an input
-checkOptVar() {
-   echo $1
-}
+# Color Options
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color

@@ -1,5 +1,5 @@
-#!/bin/bash
-source util.sh
+#!/usr/bin/env bash
+source "$(dirname $0)/"util.sh
 default_results=10
 description="This script can take up to two arguments:\n
 [1]\t\t: Path to the directory which should be traversed 
@@ -12,11 +12,11 @@ then
 fi
 
 lineCount () {
+    #for file in $(allFiles $1 "$cppFiles"); do
     for file in $(allFiles $1); do
         wc -l $file
     done
 }
 
-max=$(checkOptVar $2 10)
-
+max=${2:-$default_results}
 lineCount $1 | sort -rg | head -$max

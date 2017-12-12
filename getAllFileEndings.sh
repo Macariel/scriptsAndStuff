@@ -1,5 +1,5 @@
-#!/bin/bash
-source util.sh
+#!/usr/bin/env bash
+source "$(dirname $0)/"util.sh
 description="This script can take up to two arguments:\n
 [1]\t\t: Path to the directory which should be traversed to list all its containing file extensions.
 [2](opt)\t: Minium number of occurrences a file extensions must have to appear on the list.
@@ -10,8 +10,8 @@ then
     exit
 fi
 
-dir=$(checkVar $1 $description)
-number=$(checkOptVar $2 1)
+dir=$1
+number=${2:-1}
 
 allFiles $1 |
     awk -F . '{print $NF}' | 
