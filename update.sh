@@ -12,6 +12,7 @@ checkRepo() {
             cd $dir
             updateRepo $2
             cd -
+            echo -n "click to continue..."
             read
         fi
     done
