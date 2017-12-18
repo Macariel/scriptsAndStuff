@@ -1,33 +1,21 @@
 #!/usr/bin/env bash
-source "$(dirname $0)/"util.sh
-
-checkRepo() {
-    for repo in $(find $1 -type d -name ".$2"); do
-        clear
-        local dir=$(dirname $repo)
-        printf "($2) ${RED}Update \"$dir\"(y/n)?: ${NC}"
-        read yn
-        if [ "$yn" == "y" ];
-        then
-            cd $dir
-            updateRepo $2
-            cd -
-            echo -n "click to continue..."
-            read
-        fi
-    done
-}
-
 updateRepo() {
-    if [ "$1" == "git" ]
-    then
-        git pull
-    elif [ "$1" == "svn" ]
-    then
-        svn up
+    local type=$(echo $1 | awk '{print $1}')
+    local repoDir=$(echo $1 | awk '{print $2}')
+    local name=$(basename $repoDir)
+
+    cd $repoDir >/dev/null
+    printf "Updating $name... "
+    if [ "$type" == "git" ]; then
+        git fetch >/dev/null
+        git pull >/dev/null 2>&1
+    elif [ "$type" == "svn" ]; then
+        svn up >/dev/null
     fi
+    echo "done"
+    cd - >/dev/null
 }
 
-dir=${1:-"."}
-checkRepo $dir "git"
-checkRepo $dir "svn"
+while read line; do
+    updateRepo "$line"
+done <.update_config

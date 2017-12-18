@@ -7,9 +7,9 @@ They are in no way polished or bug free, just some quick commands hacked togethe
 Traverses over a given directory, gathers all file extensions and sums their occurrences up in a small compact list
 - `getBiggestFiles [directory] (number_of_results=10)`
 Traverses over a given directory and list the ten (default vaule) biggest files
-- `update (directory=".")`
-Checks if any subdirectories of the given directory or the current one are either `svn` or `git`  
-and then prompts if you wanna update the
+- `update (directory=".")` and `configUpdate`
+`configUpdate` let's you go through every available repo in the given directory (and subdirectory) and asks you if 
+you want to set it to auto-update. `update.sh` updates all repos configured that way automatically if called.
 
 # Commands
 Just some terminal commands which might come in use.
