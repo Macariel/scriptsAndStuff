@@ -1,48 +1,49 @@
-#!/usr/bin/env bash
-source "$(dirname $0)/"util.sh
+#!/usr/bin/env zsh 
+thisDir=$(cd $(dirname $0);pwd)
+config="$thisDir/.update_config"
+source "$thisDir/"util.sh
 
 checkRepo() {
     local searchDir=$1
     local repoType=$2
     for repo in $(find $searchDir -type d -name ".$2"); do
-        #clear
-        local dir=$(dirname $repo)
-        local shortDir=$(basename $dir)
+        local absolutePath=$(cd $(dirname $repo); pwd)
+        local folderName=$(basename $absolutePath)
 
         # get repo status
-        cd $dir
-        getStatus "$repoType";status=$? 
-        message=$(getStatusMessage $status)
-        cd - >/dev/null
+        getStatus "$repoType";repoStatus=$? 
+        local message=$(getStatusMessage $repoStatus)
 
         # get update config status
-        added=`grep "$dir" .update_config | wc -l`
+        local added=`grep "$absolutePath" "$config" | wc -l`
         if [ $added -eq "0" ]; then
             addedStatus="${RED}(-)${NC}"
         else
             addedStatus="${BLUE}(+)${NC}"
         fi
 
-        printf "($2) $addedStatus $message${RED}Set ${NC}$shortDir${RED} to auto update? (y/n): ${NC}" 
         # ask if it should be added
+        printf "($2) $addedStatus $message${RED}Set ${NC}$folderName${RED} to auto update? (y/n): ${NC}" 
         read yn
-        if [ "$yn" == "y" ] && [ $added -eq 0 ]; then
-            echo "$2 $dir" >> .update_config
-        elif [ ! "$yn" == "y" ] && [ $added -gt 0 ]; then
-            sed -i '\#'$dir'#d' .update_config
+        if [ "$yn" "==" "y" ] && [ $added -eq 0 ]; then
+            echo "$2 $absolutePath" >> $config
+        elif [ ! "$yn" "==" "y" ] && [ $added -gt 0 ]; then
+            sed -i '\#'$absolutePath'#d' $config
         fi
     done
     wait
 }
 
 getStatus() {
-    if [ "$1" == "git" ] 
+    cd $absolutePath
+    if [ "$1" "==" "git" ] 
     then
         getGitStatus
-    elif [ "$1" == "svn" ]
+    elif [ "$1" "==" "svn" ]
     then
         getSvnStatus
     fi
+    cd -
 }
 
 getStatusMessage() {
@@ -86,13 +87,13 @@ getGitStatus() {
         LOCAL=$(git rev-parse @)
         BASE=$(git merge-base @ @{u})
 
-        if [ $LOCAL == $REMOTE ]; then
+        if [ $LOCAL "==" $REMOTE ]; then
             # Up-to-date
             return 1
-        elif [ $LOCAL == $BASE ]; then
+        elif [ $LOCAL "==" $BASE ]; then
             # Need to pull
             return 2
-        elif [ $REMOTE == $BASE ]; then
+        elif [ $REMOTE "==" $BASE ]; then
             # Need to push
             return 3
         else
@@ -106,8 +107,8 @@ getGitStatus() {
 }
 
 # check if config file exists
-if [ ! -f ".update_config" ]; then
-    touch ".update_config"
+if [ ! -f "$config" ]; then
+    touch "$config"
 fi
 
 dir=${1:-"."}

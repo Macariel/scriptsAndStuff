@@ -1,21 +1,25 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh 
+source "$(cd $(dirname $0); pwd)/util.sh"
+
 updateRepo() {
     local type=$(echo $1 | awk '{print $1}')
     local repoDir=$(echo $1 | awk '{print $2}')
     local name=$(basename $repoDir)
 
-    cd $repoDir >/dev/null
-    printf "Updating $name... "
-    if [ "$type" == "git" ]; then
-        git fetch >/dev/null
-        git pull >/dev/null 2>&1
-    elif [ "$type" == "svn" ]; then
-        svn up >/dev/null
+    cd $repoDir
+    printf "${BLUE}############################${NC}\n"
+    printf "${YELLOW}Updating $name${NC}\n"
+    printf "${BLUE}############################${NC}\n"
+    if [ "$type" "==" "git" ]; then
+        git fetch 2>&1
+        git pull 2>&1
+    elif [ "$type" "==" "svn" ]; then
+        svn up 2>&1
     fi
-    echo "done"
     cd - >/dev/null
+    printf "\n"
 }
 
 while read line; do
     updateRepo "$line"
-done <.update_config
+done < $(dirname $0)/.update_config | vim -c ":AnsiEsc" -
