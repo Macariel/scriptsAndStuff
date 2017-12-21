@@ -8,8 +8,8 @@ Traverses over a given directory, gathers all file extensions and sums their occ
 - `getBiggestFiles [directory] (number_of_results=10)`
 Traverses over a given directory and list the ten (default vaule) biggest files
 - `configUpdate (directory=".")` and `update`  
-`configUpdate` let's you go through every available repo in the given directory (and subdirectories) and asks you if 
-you want to set them to auto-update individually. `update` updates all repos configured that way automatically if called.
+`configUpdate` goes through every available repo in the given directory (and subdirectories) and asks you if 
+you want to set them to auto-update individually. `update` updates all repos configured that way automatically.
 
 # Commands
 Just some terminal commands which might come in use.
