@@ -1,5 +1,5 @@
 # Script Collection
-A place to gather all the small scripts I used. 
+Small collection of some useful scripts.  
 They are in no way polished or bug free, just some quick commands hacked together for a simple task.  
 `[param]` is a necessary parameter, whereas `(param)` indicates an optional one.
 
