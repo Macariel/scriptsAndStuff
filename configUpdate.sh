@@ -25,10 +25,8 @@ checkRepo() {
         # ask if it should be added
         printf "($2) $addedStatus $message${RED}Set ${NC}$folderName${RED} to auto update? (y/n): ${NC}" 
         read yn
-        if [ "$yn" "==" "y" ] && [ $added -eq 0 ]; then
-            echo "$2 $absolutePath" >> $config
-        elif [ ! "$yn" "==" "y" ] && [ $added -gt 0 ]; then
-            sed -i '\#'$absolutePath'#d' $config
+        if [ "$yn" "==" "y" ]; then
+            updateRepos="$updateRepos$2 $absolutePath\n"
         fi
     done
     wait
@@ -78,11 +76,6 @@ getSvnStatus() {
 }
 
 getGitStatus() {
-    #ceol=`tput el` # terminfo clr_eol
-    #echo -ne "fetching...\r"
-    #`git fetch >/dev/null`
-    #echo -ne "\r${ceol}"
-
     if REMOTE=`git rev-parse "@{u}" 2>/dev/null`; then
         LOCAL=$(git rev-parse @)
         BASE=$(git merge-base @ @{u})
@@ -112,5 +105,7 @@ if [ ! -f "$config" ]; then
 fi
 
 dir=${1:-"."}
+updateRepos=""
 checkRepo $dir "git"
 checkRepo $dir "svn"
+echo $updateRepos | head -n -1  > $config
