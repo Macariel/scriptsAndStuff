@@ -7,7 +7,8 @@ javaFiles=$(echo "-name *.java")
 # Returns all files with extensions and excludes dot-files
 # The second parameter can be one of the language-specific file endings above
 allFiles() {
-    find $1 -type f -not -path '*/\.*' $2
+    local dir=${1:-"."}
+    find $(cd "$dir"; pwd) -type f -not -path "*/\.*" $2
 }
 
 # Color Options

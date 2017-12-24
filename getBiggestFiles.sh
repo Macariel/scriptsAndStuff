@@ -12,9 +12,11 @@ then
 fi
 
 lineCount () {
-    #for file in $(allFiles $1 "$cppFiles"); do
-    for file in $(allFiles $1); do
-        wc -l $file
+    allFiles $1 | while read file; do
+    lines=$(printf '%-5s' $(wc -l "$file" | awk '{print $1}'))
+    bytes=$(stat --printf="%s" "$file" | numfmt --to=iec-i --suffix=B --padding=7)
+    fileName=$(printf '%-25s' $(basename "$file"))
+    echo "$lines $bytes   $fileName $file"
     done
 }
 
