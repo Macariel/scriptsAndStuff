@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 source "$(dirname $0)/"util.sh
 description="This script can take up to two arguments:\n
-[1]\t\t: Path to the directory which should be traversed to list all its containing file extensions.
-[2](opt)\t: Minium number of occurrences a file extensions must have to appear on the list.
+[1]\t\t: Path to the directory for which all file extensions should be listed.
+[2](opt)\t: Maximum number of results.
 \t\t  The default is 1\n"
 if [ $# -eq 0 ]
 then
@@ -11,9 +11,11 @@ then
 fi
 
 dir=$1
-number=${2:-1}
-
+max=${2:-10}
 allFiles $1 |
-    awk -F . '{print $NF}' | 
-    sort | uniq -c | sort -rg | 
-    awk -v number="$number" -F " " '{if($1>=number) print $0}' 
+    grep "\." |
+    awk -F . '{print $NF}' |
+    sort |
+    uniq -c |
+    sort -rg |
+    head -$max
