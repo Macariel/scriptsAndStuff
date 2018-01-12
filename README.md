@@ -10,6 +10,7 @@ Traverses over a given directory and list the ten (default vaule) biggest files
 - `configUpdate (directory=".")` and `update`  
 `configUpdate` goes through every available repo in the given directory (and subdirectories) and asks you if 
 you want to set them to auto-update individually. `update` updates all repos configured that way automatically.
+- `copyConfigSSH` copies all important terminal and editor configs to the hosts given as a parameter
 
 # Commands
 Just some terminal commands which might come in use.
