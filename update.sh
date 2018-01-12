@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh 
+#!/usr/bin/env zsh
 source "$(cd $(dirname $0); pwd)/util.sh"
 
 updateRepo() {
@@ -22,4 +22,4 @@ updateRepo() {
 
 while read line; do
     updateRepo "$line"
-done < $(dirname $0)/.update_config | vim -c ":AnsiEsc" -
+done < $(dirname $0)/.update_config
