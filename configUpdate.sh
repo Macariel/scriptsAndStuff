@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh 
-thisDir=$(cd $(dirname $0);pwd)
-config="$thisDir/.update_config"
-source "$thisDir/"util.sh
+dir="$(dirname "$(readlink -f "$0")")"
+config="$dir/.update_config"
+source "$dir/util.sh"
 
 checkRepo() {
     local searchDir=$1

@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
-source "$(cd $(dirname $0); pwd)/util.sh"
+dir="$(dirname "$(readlink -f "$0")")"
+source "$dir/util.sh"
 
 updateRepo() {
     local type=$(echo $1 | awk '{print $1}')
@@ -22,4 +23,4 @@ updateRepo() {
 
 while read line; do
     updateRepo "$line"
-done < $(dirname $0)/.update_config
+done < $dir/.update_config

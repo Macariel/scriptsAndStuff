@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-source "$(dirname $0)/"util.sh
+dir="$(dirname "$(readlink -f "$0")")"
+source "$dir/util.sh
+
 description="This script can take up to two arguments:\n
 [1]\t\t: Path to the directory for which all file extensions should be listed.
 [2](opt)\t: Maximum number of results.

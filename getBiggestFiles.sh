@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-source "$(dirname $0)/"util.sh
+dir="$(dirname "$(readlink -f "$0")")"
+source "$dir/util.sh"
+
 default_results=10
 description="This script can take up to two arguments:\n
 [1]\t\t: Path to the directory which should be traversed 
