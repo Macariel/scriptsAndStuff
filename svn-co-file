@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+if [[ -z $1 ]]; then
+    echo "Need file of SVN repository as parameter"
+    exit
+fi
+
+file_name=$(basename $1)
+folder=$(dirname $1)
+
+svn co --depth empty $folder
+cd $(basename $folder)
+svn up $file_name
