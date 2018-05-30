@@ -104,7 +104,12 @@ if [ ! -f "$config" ]; then
     touch "$config"
 fi
 
-dir=${1:-"."}
+dir=$1
+if [[ -z $dir ]]; then
+    echo "Need directory to search for projects as parameter."
+    exit 1
+fi
+
 updateRepos=""
 checkRepo $dir "git"
 checkRepo $dir "svn"
